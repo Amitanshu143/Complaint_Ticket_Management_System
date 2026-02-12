@@ -16,8 +16,12 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 // Route Guards
 import ProtectedRoute from './route/ProtectedRoute';
 import PublicRoute from './route/PublicRoute';
+<<<<<<< HEAD
 import { Contact } from './pages/public/Contact';
 import AdminTickets from './pages/admin/AdminTickets';
+=======
+import { Contact } from './pages/public/contact';
+>>>>>>> 051e886f9d05b0b8cb318ec9ee0ac006324704a2
 
 function App() {
   return (
@@ -26,7 +30,11 @@ function App() {
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
         <Route path="about" element={<About />} />
+<<<<<<< HEAD
         <Route path="Contact" element={<Contact/>} />
+=======
+         <Route path="contact" element={<Contact />} />
+>>>>>>> 051e886f9d05b0b8cb318ec9ee0ac006324704a2
         
         {/* Only accessible if NOT logged in */}
         <Route 
@@ -60,7 +68,10 @@ function App() {
       {/* Admin Routes with Admin Layout */}
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminDashboard />} />
+<<<<<<< HEAD
         <Route path="tickets" element={<AdminTickets />} />
+=======
+>>>>>>> 051e886f9d05b0b8cb318ec9ee0ac006324704a2
       </Route>
       
       {/* Fallback */}

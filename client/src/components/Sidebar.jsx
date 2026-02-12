@@ -12,7 +12,10 @@ const Sidebar = () => {
       <nav className="flex-1 p-4 space-y-2">
         <Link to="/admin" className="block py-2 px-4 hover:bg-gray-700 rounded">Dashboard</Link>
         <Link to="/admin/users" className="block py-2 px-4 hover:bg-gray-700 rounded">Users</Link>
+<<<<<<< HEAD
         <Link to="/admin/tickets" className="block py-2 px-4 hover:bg-gray-700 rounded">Tickets</Link>
+=======
+>>>>>>> 051e886f9d05b0b8cb318ec9ee0ac006324704a2
         <Link to="/" className="block py-2 px-4 hover:bg-gray-700 rounded text-gray-400">Back to Site</Link>
       </nav>
       <div className="p-4 border-t border-gray-700">

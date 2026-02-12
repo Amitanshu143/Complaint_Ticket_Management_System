@@ -14,7 +14,10 @@ const Navbar = () => {
           <div className="flex items-center space-x-4">
             <Link to="/" className="text-gray-700 hover:text-blue-600">Home</Link>
             <Link to="/about" className="text-gray-700 hover:text-blue-600">About</Link>
+<<<<<<< HEAD
             <Link to="/Contact" className="text-gray-700 hover:text-blue-600">Contact</Link>
+=======
+>>>>>>> 051e886f9d05b0b8cb318ec9ee0ac006324704a2
             
             {user ? (
               <>
