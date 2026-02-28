@@ -1,86 +1,64 @@
-const Contact = require("../model/Contact")
+const Contact = require("../model/Contact");
 
 const AddContact = async (req, res) => {
   try {
-    const contact =await Contact.create(req.body);
+    const { name, email, phone, message } = req.body;
 
-    return res.json({
-      message: "contact created sucessfully",
-      
-      contact: contact,
-      status: true
+    // Basic validation
+    if (!name || !email || !message) {
+      return res.status(400).json({
+        success: false,
+        message: "Name, email and message are required",
+      });
+    }
+
+    const newContact = await Contact.create({
+      name,
+      email,
+      phone,
+      message,
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: "Message sent successfully",
+      data: newContact,
     });
   } catch (err) {
-    return res.json({
-      message: "Error while create contact",
-      status: false,
+    return res.status(500).json({
+      success: false,
+      message: "Error while creating contact",
+      error: err.message,
     });
   }
 };
 
-const GetContact =  async(req,res)=>{
-    try{
-        const dfgh =await Contact.find()
+const getAllContacts = async (req, res) => {
+  try {
+    const contacts = await Contact.find().sort({ createdAt: -1 });
 
-        return res.json({
-            message: "contact get sucessful",
-            contacts:dfgh,
-            status:true
-        });
-    }
-    catch(err){
-        console.log(err);
-
-        return res.json({
-            message:"Error while fetch",
-            status: false,
-        });
-    }
+    res.json({ success: true, contacts });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
 
-const UpdateContact = async (req,res)=>{
-    try{
-        const UpdatedContact= await Contact.findByIdAndUpdate(req.params.id,req.body )
+/* ===============================
+   DELETE CONTACT (Admin)
+================================ */
+const deleteContact = async (req, res) => {
+  try {
+    await Contact.findByIdAndDelete(req.params.id);
 
-        return res.json({
-            message: "updated sucessfully",
-            // id:req.params.id
-            status:true,
-            UpdatedContact
-        })
-    }
-    catch(err){
-        return res.json({
-            message: "error while update",
-            status: false
-        
-        });
-    }
-}
+    res.json({
+      success: true,
+      message: "Contact deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 
-const DeleteContact = async (req,res)=>{
-    try{
-        const deletecontact= await Contact.findByIdAndDelete(req.params.id)
-
-        return res.json({
-            message: "deleted sucessful",
-            status:true,
-            deletecontact
-        });
-        
-    }
-    catch(err){
-        console.log(err);
-        return res.json({
-            message: "error while delete",
-            status: false
-        
-        });
-    }
-}
 module.exports = {
-  AddContact,
-  GetContact,
-  UpdateContact,
-  DeleteContact,
+  AddContact,getAllContacts,deleteContact
 };

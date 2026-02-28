@@ -1,89 +1,137 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { motion } from "framer-motion";
+import { Eye, EyeOff } from "lucide-react";
 
 const Register = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const { register } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
+    setLoading(true);
 
     const result = await register(name, email, password);
 
     if (result.success) {
-      navigate('/profile'); // Redirect to profile after successful registration
+      navigate("/profile");
     } else {
       setError(result.message);
     }
+
+    setLoading(false);
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[80vh]">
-      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Create Account</h2>
-        
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 to-indigo-700 px-4">
+
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="w-full max-w-md bg-white/20 backdrop-blur-lg p-8 rounded-2xl shadow-2xl border border-white/30"
+      >
+        {/* Heading */}
+        <h2 className="text-3xl font-bold text-center text-white mb-2">
+          Create Your Account
+        </h2>
+        <p className="text-center text-gray-200 mb-6 text-sm">
+          Register to submit and track your tickets easily
+        </p>
+
+        {/* Error Message */}
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="bg-red-500/20 border border-red-400 text-red-100 px-4 py-2 rounded mb-4 text-sm"
+          >
             {error}
-          </div>
+          </motion.div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
+
+          {/* Name */}
           <div>
-            <label className="block text-gray-700 text-sm font-bold mb-2">Full Name</label>
+            <label className="block text-sm text-gray-200 mb-1">
+              Full Name
+            </label>
             <input
               type="text"
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="John Doe"
+              className="w-full px-4 py-2 rounded-lg bg-white/80 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              placeholder="Enter your full name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
             />
           </div>
+
+          {/* Email */}
           <div>
-            <label className="block text-gray-700 text-sm font-bold mb-2">Email Address</label>
+            <label className="block text-sm text-gray-200 mb-1">
+              Email Address
+            </label>
             <input
               type="email"
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="john@example.com"
+              className="w-full px-4 py-2 rounded-lg bg-white/80 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
-          <div>
-            <label className="block text-gray-700 text-sm font-bold mb-2">Password</label>
+
+          {/* Password */}
+          <div className="relative">
+            <label className="block text-sm text-gray-200 mb-1">
+              Password
+            </label>
             <input
-              type="password"
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Create a password"
+              type={showPassword ? "text" : "password"}
+              className="w-full px-4 py-2 rounded-lg bg-white/80 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              placeholder="Create a strong password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+
+            <div
+              className="absolute right-3 top-9 cursor-pointer text-gray-600"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </div>
           </div>
-          
-          <button
+
+          {/* Button */}
+          <motion.button
+            whileTap={{ scale: 0.95 }}
             type="submit"
-            className="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-200"
+            disabled={loading}
+            className="w-full bg-white text-blue-700 font-semibold py-2 rounded-lg hover:bg-blue-100 transition duration-200 shadow-md"
           >
-            Register
-          </button>
+            {loading ? "Creating Account..." : "Register"}
+          </motion.button>
         </form>
 
-        <p className="mt-4 text-center text-sm text-gray-600">
-          Already have an account?{' '}
-          <Link to="/login" className="text-blue-600 hover:underline">
+        {/* Login Link */}
+        <p className="mt-6 text-center text-sm text-gray-200">
+          Already have an account?{" "}
+          <Link to="/login" className="text-white font-semibold hover:underline">
             Login here
           </Link>
         </p>
-      </div>
+      </motion.div>
     </div>
   );
 };
