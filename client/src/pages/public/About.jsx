@@ -124,13 +124,13 @@ const values = [
 
 const team = [
   {
-    src: "/team1.jpg",
-    initials: "YN",
+    src: "/src/assets/Amitanshu.jpg",
+    initials: "AB",
     avatarColor: "bg-gradient-to-br from-indigo-500 to-blue-600",
-    name: "Your Name",
+    name: "Amitanshu Behera",
     role: "Full Stack Developer",
     border: "border-indigo-400",
-    social: { github: "#", linkedin: "#", twitter: "#" },
+    social: { github: "https://github.com/Amitanshu143", linkedin: "https://www.linkedin.com/in/amitanshu-behera-8572462b9/", twitter: "https://x.com/AmitanshuB143" },
   },
   {
     src: "/team2.jpg",
@@ -139,6 +139,15 @@ const team = [
     name: "Team Member 2",
     role: "Backend Developer",
     border: "border-emerald-400",
+    social: { github: "#", linkedin: "#", twitter: "#" },
+  },
+  {
+    src: "/team2.jpg",
+    initials: "FD",
+    avatarColor: "bg-gradient-to-br from-emerald-500 to-teal-600",
+    name: "Diptimayee Sahoo",
+    role: "Frontend Developer",
+    border: "border-rose-400",
     social: { github: "#", linkedin: "#", twitter: "#" },
   },
 ];
