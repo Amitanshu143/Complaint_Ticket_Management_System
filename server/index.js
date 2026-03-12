@@ -16,15 +16,14 @@ app.use(express.json());
 
 // Routes
 const authRoutes = require('./route/authRoutes');
-<<<<<<< HEAD
 const contactRoutes = require('./route/contactRoute');
-=======
-const contactRoutes = require('./route/contactRoutes');
-
->>>>>>> 051e886f9d05b0b8cb318ec9ee0ac006324704a2
+const adminRoutes = require("./route/adminRoutes");
+const complaintRoutes=require("./route/complaintRoutes")
 // Mount Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/contact', contactRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/complaints", complaintRoutes);
 
 app.get('/', (req, res) => {
   res.send('API is running...');
