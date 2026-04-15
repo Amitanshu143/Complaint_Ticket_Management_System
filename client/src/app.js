@@ -8,3 +8,4 @@ function trackStatus() {
     status.innerText = "Status: Pending (Demo Data)";
   }
 }
+

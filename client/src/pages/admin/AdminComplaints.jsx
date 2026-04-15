@@ -211,7 +211,8 @@ const AdminComplaints = () => {
   const fetchComplaints = async () => {
     try {
       setLoading(true);
-      const { data } = await api.get("/complaints");
+      const { data } = await api.get("/tickets");
+      console.log(data)
       setComplaints(data.data);
     } catch (err) { console.error(err); }
     finally { setLoading(false); }

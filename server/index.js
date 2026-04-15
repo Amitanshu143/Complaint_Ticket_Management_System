@@ -1,34 +1,45 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const cors = require('cors');
-const connectDB = require('./config/db');
-dotenv.config();
+const express   = require("express");
+const dotenv    = require("dotenv");
+const cors      = require("cors");
+const connectDB = require("./config/db");
 
-// Connect to the database
+dotenv.config();
 connectDB();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+// ── Middleware ────────────────────────────────────────────
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true,
+}));
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
+// ── Routes ────────────────────────────────────────────────
+app.use("/api/auth",       require("./route/authRoute"));
+app.use("/api/complaints", require("./route/complaintRoute"));
+app.use("/api/contact",    require("./route/contactRoute"));
+app.use("/api/tickets",    require("./route/ticketRoute"));   // ← WAS MISSING!
+app.use("/api/admin",      require("./route/adminRoute"));
 
-// Routes
-const authRoutes = require('./route/authRoutes');
-const contactRoutes = require('./route/contactRoute');
-const adminRoutes = require("./route/adminRoutes");
-const complaintRoutes=require("./route/complaintRoutes")
-// Mount Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/contact', contactRoutes);
-app.use("/api/admin", adminRoutes);
-app.use("/api/complaints", complaintRoutes);
-
-app.get('/', (req, res) => {
-  res.send('API is running...');
+// ── Health check ──────────────────────────────────────────
+app.get("/", (req, res) => {
+  res.json({ message: "TicketSys API running ✅" });
 });
 
+// ── 404 handler ───────────────────────────────────────────
+app.use((req, res) => {
+  res.status(404).json({ message: `Route ${req.originalUrl} not found` });
+});
+
+// ── Global error handler ──────────────────────────────────
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: err.message || "Server Error" });
+});
+
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT} 🚀`);
 });
